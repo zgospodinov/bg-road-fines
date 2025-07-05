@@ -19,6 +19,7 @@ SMTP_SERVER = os.getenv("SMTP_SERVER")
 SMTP_PORT = int(os.getenv("SMTP_PORT"))
 SMTP_USER = os.getenv("SMTP_USER")
 SMTP_PASS = os.getenv("SMTP_PASS")
+E_USLUGI_MVR_URL = os.getenv("E_USLUGI_MVR")
 
 def fetch_ticket_html():
     options = Options()
@@ -29,7 +30,7 @@ def fetch_ticket_html():
     driver = webdriver.Chrome(options=options)
 
     try:
-        driver.get("https://e-uslugi.mvr.bg/services/obligations")
+        driver.get(E_USLUGI_MVR_URL)
 
         # Handle cookie consent if present
         try:
@@ -48,7 +49,7 @@ def fetch_ticket_html():
         WebDriverWait(driver, 20).until(
             lambda d: d.find_element(By.XPATH, '//*[@id="ARTICLE-CONTENT"]/div/div[2]/h2').text.strip() != ""
         )
-        
+
         search_result_element = driver.find_element(By.ID, "ARTICLE-CONTENT")
         return search_result_element.get_attribute("outerHTML")  # Return raw HTML for reliability
 
