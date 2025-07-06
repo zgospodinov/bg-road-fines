@@ -1,5 +1,6 @@
 import os
 import smtplib
+import ssl
 from dotenv import load_dotenv
 from email.message import EmailMessage
 from selenium import webdriver
@@ -21,7 +22,7 @@ SMTP_USER = os.getenv("SMTP_USER")
 SMTP_PASS = os.getenv("SMTP_PASS")
 E_USLUGI_MVR_URL = os.getenv("E_USLUGI_MVR")
 
-def fetch_ticket_html():
+def get_road_fines():
     options = Options()
     options.add_argument("--headless")
     options.add_argument("--no-sandbox")
@@ -30,6 +31,7 @@ def fetch_ticket_html():
     driver = webdriver.Chrome(options=options)
 
     try:
+        print("Checking for road fines...")
         driver.get(E_USLUGI_MVR_URL)
 
         # Handle cookie consent if present
@@ -51,6 +53,7 @@ def fetch_ticket_html():
         )
 
         search_result_element = driver.find_element(By.ID, "ARTICLE-CONTENT")
+        print("Road fines check fetched")
         return search_result_element.get_attribute("outerHTML")  # Return raw HTML for reliability
 
     except Exception as ex:
@@ -59,12 +62,30 @@ def fetch_ticket_html():
     finally:
         driver.quit()
 
+def send_email(subject, body):
+    print("Sending email notification...")
+    
+    msg = EmailMessage()
+    msg['Subject'] = subject
+    msg['From'] = EMAIL_FROM
+    msg['To'] = EMAIL_TO
+    msg.set_content(body)
 
+    context = ssl.create_default_context()
+
+    with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT, context=context) as email_server:
+        email_server.login(SMTP_USER, SMTP_PASS)
+        email_server.send_message(msg)
+    
+    print("Email notification sent")
+        
 
 def main():
     print("Hello from bg-road-fines!")
-    page_html = fetch_ticket_html()
-    print(page_html)
+    road_fines_result = get_road_fines()
+    send_email(
+        subject="Обобщена проверка на задължения по фиш, НП или споразумение, с възможност за извършване на плащане",
+        body=road_fines_result)
 
 
 if __name__ == "__main__":
