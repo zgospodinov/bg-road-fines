@@ -17,6 +17,15 @@ class EmailSender:
         self.e_uslugi_mvr_url = os.getenv("E_USLUGI_MVR")
 
     def send_email(self, body, subject="Обобщена проверка на задължения по фиш, НП или споразумение"):
+        """
+        Sends an HTML email with the provided subject and body.
+        The email includes a link to the MVR e-services portal for payment.
+        
+        Args:
+            body (str): The main HTML content of the email.
+            subject (str, optional): The subject of the email. Defaults to a summary subject.
+        """
+        
         print("Sending email notification...")
         content = f"""
         {body}
@@ -35,7 +44,17 @@ class EmailSender:
             email_server.send_message(msg)
         print("Email notification sent")
     
+    
     def send_error_email(self, subject="Грешка при проверка на задължения", message=None):
+        """
+        Sends an error notification email if the data could not be fetched.
+        The email includes a message and a link for manual checking.
+        
+        Args:
+            subject (str, optional): The subject of the error email. Defaults to a standard error subject.
+            message (str, optional): The HTML message to include in the email. Defaults to a standard error message.
+        """
+        
         print("Sending error notification email...")
         if message is None:
             message = "<p>Данните за задълженията не бяха успешно извлечени. Моля, проверете в системата или изчакайте следващата насрочена проверка</p>"
