@@ -24,4 +24,15 @@ jobs:
           pip install -r requirements.txt  # or skip if not needed
 
       - name: Run script
-        run: python main.py
+        env:
+          ID_CARD: ${{ secrets.ID_CARD }}
+          DRIVING_LICENSE: ${{ secrets.DRIVING_LICENSE }}
+          EMAIL_TO: ${{ secrets.EMAIL_TO }}
+          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+          SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          E_USLUGI_MVR: ${{ secrets.E_USLUGI_MVR }}
+        run: |
+          python main.py
