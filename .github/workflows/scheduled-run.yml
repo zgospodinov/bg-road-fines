@@ -2,12 +2,13 @@ name: Run Bg Road Fines Serverless on Schedule
 
 on:
   schedule:
-    - cron: "*/15 * * * *" # Runs on Monday and Thursday at 18:00 UTC
+    - cron: "*/15 * * * *" # Runs every 15 minutes
   workflow_dispatch: # (optional) allows manual trigger from UI
 
 jobs:
   run-script:
     runs-on: ubuntu-latest
+    environment: prod
 
     steps:
       - name: Checkout code
