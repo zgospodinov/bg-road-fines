@@ -34,4 +34,5 @@ jobs:
           SMTP_USER: ${{ secrets.SMTP_USER }}
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
           E_USLUGI_MVR: ${{ secrets.E_USLUGI_MVR }}
-        run: python main.py
+        run: |
+          python main.py
