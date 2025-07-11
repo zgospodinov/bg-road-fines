@@ -9,8 +9,6 @@ load_dotenv()
 class EmailSender:
     def __init__(self):
         self.email_to = os.getenv("EMAIL_TO")
-        if(self.email_to is None):
-            raise ValueError("EMAIL_TO environment variable is not set.")
         self.email_from = os.getenv("EMAIL_FROM")
         self.smtp_server = os.getenv("SMTP_SERVER")
         self.smtp_port = int(os.getenv("SMTP_PORT"))
