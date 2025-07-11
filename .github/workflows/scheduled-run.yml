@@ -2,7 +2,7 @@ name: Run Bg Road Fines Serverless on Schedule
 
 on:
   schedule:
-    - cron: "0 18 * * 1,4" # Runs on Monday and Thursday at 18:00 UTC
+    - cron: "*/1 * * * *" # Runs on Monday and Thursday at 18:00 UTC
   workflow_dispatch: # (optional) allows manual trigger from UI
 
 jobs:
