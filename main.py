@@ -2,7 +2,7 @@ from email_sender import EmailSender
 from road_fines import get_road_fines
 
 
-def main():    
+def lambda_handler(event, context):    
     print("Hello from bg-road-fines!")
     
     email_service = EmailSender()
@@ -14,4 +14,4 @@ def main():
         email_service.send_error_email(message=road_fines_result)
 
 if __name__ == "__main__":
-    main()
+    lambda_handler()
